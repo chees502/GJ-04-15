@@ -6,7 +6,31 @@ public class ActorController : MonoBehaviour {
 	public float friction=1;
 	public float runSpeed=1;
 	public bool isGrounded=false;
+	public float actorWidth = 1;
+	public float actorHeight = 1;
+
 	void Update () {
+		GravityAction();
+		Phys();
+	}
+
+	public void Move(float dir){
+		velocity.x+=dir*runSpeed;
+	}
+
+	public void Jump(float strength){
+		if(isGrounded){
+			isGrounded=false;
+			Debug.Log ("Jumped for "+strength);
+			velocity.y=strength;
+		}
+	}
+
+	public void Jump(){
+		Jump(10);
+	}
+
+	void GravityAction(){
 		velocity.y+=_Root.Apendix.actorGravity*Time.deltaTime;
 		Vector3 groundPlane=new Vector3(0,-0.502f,0);
 		RaycastHit2D hit=Physics2D.Raycast(
@@ -21,21 +45,8 @@ public class ActorController : MonoBehaviour {
 			//Debug.Log (hit.point);
 		}
 		Debug.DrawRay(transform.position+groundPlane,velocity*Time.deltaTime);
-		Phys();
 	}
-	public void Move(float dir){
-		velocity.x+=dir*runSpeed;
-	}
-	public void Jump(float strength){
-		if(isGrounded){
-			isGrounded=false;
-			Debug.Log ("Jumped for "+strength);
-			velocity.y=strength;
-		}
-	}
-	public void Jump(){
-		Jump(10);
-	}
+
 	void Phys(){
 		Vector3 newPos = transform.position;
 		newPos.x+=velocity.x*Time.deltaTime;
