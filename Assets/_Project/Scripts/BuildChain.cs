@@ -5,7 +5,7 @@ public class BuildChain : MonoBehaviour {
 	public int chainLength=10;
 	public float chainSpace=1;
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 
 		GameObject lastGO=new GameObject();
 		for(int x=0;x<chainLength;x++){
@@ -16,7 +16,7 @@ public class BuildChain : MonoBehaviour {
 			tempGO.name="Joint "+x;
 			tempGO.AddComponent<Rigidbody2D>();
 			tempGO.AddComponent<BoxCollider2D>();
-
+			tempGO.AddComponent<LinkController>();
 			if(x!=0){
 				HingeJoint2D hinge = tempGO.AddComponent<HingeJoint2D>();
 				hinge.connectedBody=lastGO.GetComponent<Rigidbody2D>();
