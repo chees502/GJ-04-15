@@ -13,8 +13,7 @@ public class ActorController : MonoBehaviour {
 
 	void Start(){
 		collider=GetComponent<Collider2D>();
-		bounds = collider.bounds;
-		size = bounds.size;
+		size = collider.bounds.size;
 	}
 	void Update () {
 		GravityAction();
