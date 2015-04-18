@@ -32,4 +32,7 @@ public class _Root{
 	public class LinkLogic{
 		public IList<LinkController> links;
 	}
+	public static class Apendix{
+		public static float actorGravity=-20;
+	}
 }
