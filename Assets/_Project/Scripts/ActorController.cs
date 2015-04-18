@@ -8,7 +8,14 @@ public class ActorController : MonoBehaviour {
 	public bool isGrounded=false;
 	public float actorWidth = 1;
 	public float actorHeight = 1;
+	Collider2D collider;
+	Vector3 size;
 
+	void Start(){
+		collider=GetComponent<Collider2D>();
+		bounds = collider.bounds;
+		size = bounds.size;
+	}
 	void Update () {
 		GravityAction();
 		Phys();
@@ -32,7 +39,7 @@ public class ActorController : MonoBehaviour {
 
 	void GravityAction(){
 		velocity.y+=_Root.Apendix.actorGravity*Time.deltaTime;
-		Vector3 groundPlane=new Vector3(0,-0.502f,0);
+		Vector3 groundPlane=new Vector3(0,size.y*0.501f,0);
 		RaycastHit2D hit=Physics2D.Raycast(
 			transform.position+groundPlane,
 			-Vector2.up,
