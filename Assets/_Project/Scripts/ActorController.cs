@@ -8,6 +8,7 @@ public class ActorController : MonoBehaviour {
 	public bool isGrounded=false;
 	public float actorWidth = 1;
 	public float actorHeight = 1;
+	public float bouncyness = 0.5f;
 	Collider2D collider;
 	Vector3 size;
 
@@ -17,6 +18,9 @@ public class ActorController : MonoBehaviour {
 	}
 	void Update () {
 		GravityAction();
+		TopCollide();
+		LeftCollide();
+		RightCollide();
 		Phys();
 	}
 
@@ -38,19 +42,144 @@ public class ActorController : MonoBehaviour {
 
 	void GravityAction(){
 		velocity.y+=_Root.Apendix.actorGravity*Time.deltaTime;
-		Vector3 groundPlane=new Vector3(0,size.y*0.501f,0);
-		RaycastHit2D hit=Physics2D.Raycast(
-			transform.position+groundPlane,
+		Vector3 groundPlaneLeft = new Vector3(-size.x*0.4f,-size.y*0.501f,0);
+		Vector3 groundPlaneCenter = new Vector3(0,-size.y*0.501f,0);
+		Vector3 groundPlaneRight = new Vector3(size.x*0.4f,-size.y*0.501f,0);
+		RaycastHit2D hitLeft=Physics2D.Raycast(
+			transform.position+groundPlaneLeft,
 			-Vector2.up,
 			velocity.y*Time.deltaTime);
-		if(hit.collider!=null&&hit.collider!=gameObject.GetComponent<Collider2D>()&&velocity.y<0){
-			Debug.Log(gameObject.name+" Hit "+hit.collider.gameObject.name);
-			transform.position=new Vector3(hit.point.x-groundPlane.x,hit.point.y-groundPlane.y,0);
+		RaycastHit2D hitCenter=Physics2D.Raycast(
+			transform.position+groundPlaneCenter,
+			-Vector2.up,
+			velocity.y*Time.deltaTime);
+		RaycastHit2D hitRight=Physics2D.Raycast(
+			transform.position+groundPlaneRight,
+			-Vector2.up,
+			velocity.y*Time.deltaTime);
+		if(hitLeft.collider!=null&&hitLeft.collider!=gameObject.GetComponent<Collider2D>()&&velocity.y<0){
+			Debug.Log(gameObject.name+" hit "+hitLeft.collider.gameObject.name+" with bottom face");
+			transform.position=new Vector3(hitLeft.point.x-groundPlaneLeft.x,hitLeft.point.y-groundPlaneCenter.y,0);
 			velocity.y=0;
 			isGrounded=true;
-			//Debug.Log (hit.point);
+		} else if(hitCenter.collider!=null&&hitCenter.collider!=gameObject.GetComponent<Collider2D>()&&velocity.y<0){
+			Debug.Log(gameObject.name+" hit "+hitCenter.collider.gameObject.name+" with bottom face");
+			transform.position=new Vector3(hitCenter.point.x-groundPlaneCenter.x,hitCenter.point.y-groundPlaneCenter.y,0);
+			velocity.y=0;
+			isGrounded=true;
+		} else if(hitRight.collider!=null&&hitRight.collider!=gameObject.GetComponent<Collider2D>()&&velocity.y<0){
+			Debug.Log(gameObject.name+" hit "+hitRight.collider.gameObject.name+" with bottom face");
+			transform.position=new Vector3(hitRight.point.x-groundPlaneRight.x,hitRight.point.y-groundPlaneRight.y,0);
+			velocity.y=0;
+			isGrounded=true;
+		} else {
+			isGrounded = false;
 		}
-		Debug.DrawRay(transform.position+groundPlane,velocity*Time.deltaTime);
+		Debug.DrawRay(transform.position+groundPlaneLeft,new Vector3(0,velocity.y,0)*Time.deltaTime*5);
+		Debug.DrawRay(transform.position+groundPlaneCenter,new Vector3(0,velocity.y,0)*Time.deltaTime*5);
+		Debug.DrawRay(transform.position+groundPlaneRight,new Vector3(0,velocity.y,0)*Time.deltaTime*5);
+	}
+
+	void TopCollide(){
+		Vector3 topPlaneLeft = new Vector3(-size.x*0.4f,size.y*0.501f,0);
+		Vector3 topPlaneCenter = new Vector3(0,size.y*0.501f,0);
+		Vector3 topPlaneRight = new Vector3(size.x*0.4f,size.y*0.501f,0);
+		RaycastHit2D hitLeft=Physics2D.Raycast(
+			transform.position+topPlaneLeft,
+			Vector2.up,
+			velocity.y*Time.deltaTime);
+		RaycastHit2D hitCenter=Physics2D.Raycast(
+			transform.position+topPlaneCenter,
+			Vector2.up,
+			velocity.y*Time.deltaTime);
+		RaycastHit2D hitRight=Physics2D.Raycast(
+			transform.position+topPlaneRight,
+			Vector2.up,
+			velocity.y*Time.deltaTime);
+		if(hitLeft.collider!=null&&hitLeft.collider!=gameObject.GetComponent<Collider2D>()&&velocity.y>0){
+			Debug.Log(gameObject.name+" hit "+hitLeft.collider.gameObject.name+" with top face");
+			transform.position=new Vector3(hitLeft.point.x-topPlaneLeft.x,hitLeft.point.y-topPlaneLeft.y,0);
+			velocity.y*=-bouncyness;
+		} else if(hitCenter.collider!=null&&hitCenter.collider!=gameObject.GetComponent<Collider2D>()&&velocity.y>0){
+			Debug.Log(gameObject.name+" hit "+hitCenter.collider.gameObject.name+" with top face");
+			transform.position=new Vector3(hitCenter.point.x-topPlaneCenter.x,hitCenter.point.y-topPlaneCenter.y,0);
+			velocity.y*=-bouncyness;
+		} else if(hitRight.collider!=null&&hitRight.collider!=gameObject.GetComponent<Collider2D>()&&velocity.y>0){
+			Debug.Log(gameObject.name+" hit "+hitRight.collider.gameObject.name+" with top face");
+			transform.position=new Vector3(hitRight.point.x-topPlaneRight.x,hitRight.point.y-topPlaneRight.y,0);
+			velocity.y*=-bouncyness;
+		}
+		Debug.DrawRay(transform.position+topPlaneLeft,new Vector3(0,velocity.y,0)*Time.deltaTime*5);
+		Debug.DrawRay(transform.position+topPlaneCenter,new Vector3(0,velocity.y,0)*Time.deltaTime*5);
+		Debug.DrawRay(transform.position+topPlaneRight,new Vector3(0,velocity.y,0)*Time.deltaTime*5);
+	}
+
+	void LeftCollide(){
+		Vector3 leftPlaneTop = new Vector3(-size.x*0.501f,size.y*0.4f,0);
+		Vector3 leftPlaneMid = new Vector3(-size.x*0.501f,0,0);
+		Vector3 leftPlaneBot = new Vector3(-size.x*0.501f,-size.y*0.4f,0);
+		RaycastHit2D hitTop=Physics2D.Raycast(
+			transform.position+leftPlaneTop,
+			-Vector2.right,
+			velocity.x*Time.deltaTime);
+		RaycastHit2D hitMid=Physics2D.Raycast(
+			transform.position+leftPlaneMid,
+			-Vector2.right,
+			velocity.x*Time.deltaTime);
+		RaycastHit2D hitBot=Physics2D.Raycast(
+			transform.position+leftPlaneBot,
+			-Vector2.right,
+			velocity.x*Time.deltaTime);
+		if(hitTop.collider!=null&&hitTop.collider!=gameObject.GetComponent<Collider2D>()&&velocity.x<0){
+			Debug.Log(gameObject.name+" hit "+hitTop.collider.gameObject.name+" with left face");
+			transform.position=new Vector3(hitTop.point.x-leftPlaneTop.x,hitTop.point.y-leftPlaneTop.y,0);
+			velocity.x*=-bouncyness;
+		} else if(hitMid.collider!=null&&hitMid.collider!=gameObject.GetComponent<Collider2D>()&&velocity.x<0){
+			Debug.Log(gameObject.name+" hit "+hitMid.collider.gameObject.name+" with left face");
+			transform.position=new Vector3(hitMid.point.x-leftPlaneMid.x,hitMid.point.y-leftPlaneMid.y,0);
+			velocity.x*=-bouncyness;
+		} else if(hitBot.collider!=null&&hitBot.collider!=gameObject.GetComponent<Collider2D>()&&velocity.x<0){
+			Debug.Log(gameObject.name+" hit "+hitBot.collider.gameObject.name+" with left face");
+			transform.position=new Vector3(hitBot.point.x-leftPlaneBot.x,hitBot.point.y-leftPlaneBot.y,0);
+			velocity.x*=-bouncyness;
+		}
+		Debug.DrawRay(transform.position+leftPlaneTop,new Vector3(velocity.x,0,0)*Time.deltaTime*5);
+		Debug.DrawRay(transform.position+leftPlaneMid,new Vector3(velocity.x,0,0)*Time.deltaTime*5);
+		Debug.DrawRay(transform.position+leftPlaneBot,new Vector3(velocity.x,0,0)*Time.deltaTime*5);
+	}
+	
+	void RightCollide(){
+		Vector3 rightPlaneTop = new Vector3(size.x*0.501f,size.y*0.4f,0);
+		Vector3 rightPlaneMid = new Vector3(size.x*0.501f,0,0);
+		Vector3 rightPlaneBot = new Vector3(size.x*0.501f,-size.y*0.4f,0);
+		RaycastHit2D hitTop=Physics2D.Raycast(
+			transform.position+rightPlaneTop,
+			Vector2.right,
+			velocity.x*Time.deltaTime);
+		RaycastHit2D hitMid=Physics2D.Raycast(
+			transform.position+rightPlaneMid,
+			Vector2.right,
+			velocity.x*Time.deltaTime);
+		RaycastHit2D hitBot=Physics2D.Raycast(
+			transform.position+rightPlaneBot,
+			Vector2.right,
+			velocity.x*Time.deltaTime);
+		if(hitTop.collider!=null&&hitTop.collider!=gameObject.GetComponent<Collider2D>()&&velocity.x>0){
+			Debug.Log(gameObject.name+" hit "+hitTop.collider.gameObject.name+" with right face");
+			transform.position=new Vector3(hitTop.point.x-rightPlaneTop.x,hitTop.point.y-rightPlaneTop.y,0);
+			velocity.x*=-bouncyness;
+		} else if(hitMid.collider!=null&&hitMid.collider!=gameObject.GetComponent<Collider2D>()&&velocity.x>0){
+			Debug.Log(gameObject.name+" hit "+hitMid.collider.gameObject.name+" with right face");
+			transform.position=new Vector3(hitMid.point.x-rightPlaneMid.x,hitMid.point.y-rightPlaneMid.y,0);
+			velocity.x*=-bouncyness;
+		} else if(hitBot.collider!=null&&hitBot.collider!=gameObject.GetComponent<Collider2D>()&&velocity.x>0){
+			Debug.Log(gameObject.name+" hit "+hitBot.collider.gameObject.name+" with right face");
+			transform.position=new Vector3(hitBot.point.x-rightPlaneBot.x,hitBot.point.y-rightPlaneBot.y,0);
+			velocity.x*=-bouncyness;
+		}
+		Debug.DrawRay(transform.position+rightPlaneTop,new Vector3(velocity.x,0,0)*Time.deltaTime*5);
+		Debug.DrawRay(transform.position+rightPlaneMid,new Vector3(velocity.x,0,0)*Time.deltaTime*5);
+		Debug.DrawRay(transform.position+rightPlaneBot,new Vector3(velocity.x,0,0)*Time.deltaTime*5);
 	}
 
 	void Phys(){
