@@ -5,7 +5,7 @@ public class playerController : MonoBehaviour {
 	public bool p1=true;
 	public playerController buddy;
 	ActorController actor;
-	float maxBuddyDistance=25;
+	float maxBuddyDistance=5;
 	void Awake(){
 		if(_Root.playerLogic.player1==null){
 			_Root.playerLogic.player1=this;
