@@ -17,7 +17,7 @@ public class ActorController : MonoBehaviour {
 		size = collider.bounds.size;
 	}
 	void FixedUpdate () {
-		Translate();
+		//Translate();
 		LockoutUpdate();
 		GravityAction();
 		TopCollide();
@@ -43,13 +43,16 @@ public class ActorController : MonoBehaviour {
 			transform.position+new Vector3(size.x*0.4f,size.y*0.501f,0),
 			Vector2.up,
 			1);
-		if((hitRight.collider!=null &&
-		   	hitRight.collider.gameObject.layer == LayerMask.NameToLayer("Player") &&
-		    isGrounded) ||
-		   (hitLeft.collider!=null &&
-		 	hitLeft.collider.gameObject.layer == LayerMask.NameToLayer("Player") &&
-		   	isGrounded)){
+		if(hitRight.collider!=null &&
+		   hitRight.collider.gameObject.layer == LayerMask.NameToLayer("Player") &&
+		   isGrounded){
 				ActorController actorAbove = hitRight.collider.gameObject.GetComponent<ActorController>();
+				actorAbove.Jump(strength*1.2f);
+				transform.position += new Vector3(0,0.2f,0);
+		} else if(hitLeft.collider!=null &&
+			hitLeft.collider.gameObject.layer == LayerMask.NameToLayer("Player") &&
+			isGrounded){
+				ActorController actorAbove = hitLeft.collider.gameObject.GetComponent<ActorController>();
 				actorAbove.Jump(strength*1.2f);
 				transform.position += new Vector3(0,0.2f,0);
 		} else if(isGrounded){
