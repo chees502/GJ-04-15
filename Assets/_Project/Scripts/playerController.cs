@@ -17,8 +17,8 @@ public class playerController : MonoBehaviour {
 			Destroy(gameObject);
 		}
 		actor = gameObject.AddComponent<ActorController>();
-		actor.friction=10;
-		actor.runSpeed=2;
+//		actor.friction=10;
+//		actor.runSpeed=2;
 	}
 	void Start(){
 		if(p1){
@@ -36,7 +36,7 @@ public class playerController : MonoBehaviour {
 				actor.Move (1);
 			}
 			if(Input.GetKeyDown("space")){
-				actor.Jump(10);
+				actor.Jump();
 			}
 		}else{
 			if(Input.GetKey("left")){
@@ -46,10 +46,10 @@ public class playerController : MonoBehaviour {
 				actor.Move (1);
 			}
 			if(Input.GetKeyDown("[0]")){
-				actor.Jump (10);
+				actor.Jump ();
 			}
 			if(Input.GetKeyDown("right ctrl")){
-				actor.Jump (10);
+				actor.Jump ();
 			}
 
 		}

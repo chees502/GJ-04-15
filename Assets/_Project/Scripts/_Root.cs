@@ -33,7 +33,13 @@ public class _Root{
 		public IList<LinkController> links;
 	}
 	public static class Apendix{
-		public static float actorGravity=-20;
-		public static float levelScrollSpeed=1;
+		public static float actorGravity		= -32;
+		public static float levelScrollSpeed	= 1;
+		public static float friction			= 10;
+		public static float airFriction 		= 2;
+		public static float runSpeed			= 1.2f;
+		public static float airSpeed			= 0.4f;
+		public static float jumpPower			= 16;
+		public static float bouncyness 			= 0.5f;
 	}
 }
