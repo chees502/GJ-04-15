@@ -41,5 +41,8 @@ public class _Root{
 		public static float airSpeed			= 0.4f;
 		public static float jumpPower			= 16;
 		public static float bouncyness 			= 0.5f;
+		public static int lockoutTime			= 6;
+		public static int edgeBufferTime		= 4;
+
 	}
 }
