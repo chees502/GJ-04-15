@@ -12,10 +12,17 @@ public class BoardTiming : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		Debug.Log (LayerMask.NameToLayer("Terrain"));
 		Vector3 position = transform.position;
 		position.x-=_Root.Apendix.levelScrollSpeed*Time.deltaTime;
 		transform.position=position;
 		if(position.x<_Root.Apendix.tileSpawnRange){
+			if(Random.value<0.25f){
+				GameObject temp = Instantiate(Resources.Load ("tempSeeker"))as GameObject;
+				Vector2 circle = Random.insideUnitCircle.normalized*20;
+				circle.y=Mathf.Abs(circle.y);
+				temp.transform.position= new Vector3(circle.x,circle.y,0);
+			}
 			int index = Random.Range (0,LevelController.boards.Count);
 			Debug.Log (index);
 			PlaceBoard(index);
@@ -70,6 +77,7 @@ public class BoardTiming : MonoBehaviour {
 		Debug.Log ("Spawning tile "+Path);
 		GameObject parent=new GameObject();
 		GameObject newGO = Instantiate(Resources.Load (Path))as GameObject;
+		newGO.layer=LayerMask.NameToLayer("Terrain");
 		newGO.transform.parent=parent.transform;
 		parent.transform.position=transform.position+new Vector3(x,-y,0);
 		parent.transform.parent=transform.parent;

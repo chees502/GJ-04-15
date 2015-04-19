@@ -9,6 +9,7 @@ public class ActorController : MonoBehaviour {
 	public bool lockedOut 		= false;
 	public int edgeBufferTimer 	= 0;
 	public bool inEdgeBuffer 	= false;
+	public bool dead			= false;
 	public Vector3 size;
 	Collider2D collider;
 	Vector2 velocity;
@@ -49,14 +50,17 @@ public class ActorController : MonoBehaviour {
 		rightPlaneMid 		= new Vector3(size.x*0.501f,0,0);
 		rightPlaneBot 		= new Vector3(size.x*0.501f,-size.y*0.4f,0);
 	}
-	void FixedUpdate () {
-		Translate();
-		LockoutUpdate();
-		GravityAction();
-		TopCollisionAction();
-		LeftCollisionAction();
-		RightCollisionAction();
-		Phys();
+	void FixedUpdate () {        
+		if(!dead){
+			LockoutUpdate();
+			Translate();
+			GravityAction();
+			TopCollide();
+			LeftCollide();
+			RightCollide();
+			Phys();
+		}
+
 	}
 
 	public void Move(float dir){

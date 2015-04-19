@@ -11,12 +11,14 @@ public class BuildChain : MonoBehaviour {
 		for(int x=0;x<chainLength;x++){
 			GameObject tempGO=GameObject.CreatePrimitive(PrimitiveType.Cube);
 			tempGO.transform.position = new Vector3(0,x*-3,0);
-			tempGO.layer=LayerMask.NameToLayer("Chain");
+			tempGO.layer=LayerMask.NameToLayer("Ignore Raycast");
 			DestroyImmediate(tempGO.GetComponent<BoxCollider>());
 			tempGO.name="Joint "+x;
 			tempGO.AddComponent<Rigidbody2D>();
 			tempGO.GetComponent<MeshRenderer>().enabled=false;
-			//tempGO.AddComponent<BoxCollider2D>().isTrigger=true;
+			BoxCollider2D collide = tempGO.AddComponent<BoxCollider2D>();
+			collide.isTrigger=true;
+			collide.size=new Vector2(0.1f,0.3f);
 			tempGO.AddComponent<LinkController>();
 			if(x!=0){
 				HingeJoint2D hinge = tempGO.AddComponent<HingeJoint2D>();

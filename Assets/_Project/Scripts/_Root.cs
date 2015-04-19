@@ -14,6 +14,7 @@ public class _Root{
 	public class PlayerLogic{
 		public playerController player1;
 		public playerController player2;
+		public bool tether=true;
 		public Vector3 midpoint{
 			get{return player1.GetMidPoint();}
 		}
@@ -42,6 +43,7 @@ public class _Root{
 	public static class Apendix{
 		public static float actorGravity		= -32;
 		public static float levelScrollSpeed	= 4;
+		public static float broReviveDistance	= 1.5f;
 		public static float friction			= 10;
 		public static float airFriction 		= 2;
 		public static float runSpeed			= 1.2f;
@@ -52,5 +54,7 @@ public class _Root{
 		public static int edgeBufferTime		= 4;
 		public static float tileSpawnRange		= 30;
 		public static float tileDespawnRange	=-30;
+		public static float seekerTurnSpeed		= 180;
+		public static float seekerMoveSpeed		= 5;
 	}
 }
