@@ -19,8 +19,13 @@ public class ChainDrawer : MonoBehaviour {
 			line.SetVertexCount(segmentCount);
 			line.SetWidth(0.1f,0.1f);
 		}
-		for(int x = 0;x<segmentCount;x++){
-			line.SetPosition(x,_Root.linkLogic.links[x].transform.position);
+		if(_Root.playerLogic.tether){
+			line.enabled=true;
+			for(int x = 0;x<segmentCount;x++){
+				line.SetPosition(x,_Root.linkLogic.links[x].transform.position);
+			}
+		}else{
+			line.enabled=false;
 		}
 	}
 }

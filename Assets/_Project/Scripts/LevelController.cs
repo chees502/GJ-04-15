@@ -11,7 +11,7 @@ public class LevelController : MonoBehaviour {
 	public static IList<Board> boards = new List<Board>();
 	// Use this for initialization
 	void Start () {
-		Board testBoard = new Board();
+		Board testBoard = new Board();/*
 		testBoard.tiles=new char[9][];
 		testBoard.tiles[00]=new char[]{'0','0','0','0','0','0','0','0','0','0',};
 		testBoard.tiles[01]=new char[]{'0','0','0','0','0','0','0','0','0','0',};
@@ -29,10 +29,17 @@ public class LevelController : MonoBehaviour {
 		testBoard.tiles[01]=new char[]{'0','0','0'};
 		testBoard.tiles[02]=new char[]{'0','0','0'};
 		testBoard.tiles[03]=new char[]{'0','0','0'};
+<<<<<<< HEAD
 		testBoard.tiles[04]=new char[]{'0','1','1'};
 		testBoard.tiles[05]=new char[]{'0','1','1'};
 		testBoard.tiles[06]=new char[]{'1','1','1'};
 		testBoard.tiles[07]=new char[]{'1','1','1'};
+=======
+		testBoard.tiles[04]=new char[]{'0','0','0'};
+		testBoard.tiles[05]=new char[]{'0','0','0'};
+		testBoard.tiles[06]=new char[]{'0','0','0'};
+		testBoard.tiles[07]=new char[]{'0','1','1'};
+>>>>>>> e458f9f6057db6bb5ff58d8fbfbc1af191dbb70f
 		testBoard.tiles[08]=new char[]{'1','1','1'};
 		boards.Add(testBoard);
 		testBoard = new Board();
@@ -46,6 +53,7 @@ public class LevelController : MonoBehaviour {
 		testBoard.tiles[06]=new char[]{'1','1','0','0','0','0','0','0','1','1','1'};
 		testBoard.tiles[07]=new char[]{'1','1','1','1','1','1','1','1','1','1','1'};
 		testBoard.tiles[08]=new char[]{'1','1','1','1','1','1','1','1','1','1','1'};
+<<<<<<< HEAD
 		boards.Add(testBoard);
 		testBoard = new Board();
 		testBoard.tiles=new char[9][];
@@ -71,6 +79,21 @@ public class LevelController : MonoBehaviour {
 		testBoard.tiles[07]=new char[]{'1','1','1','1','1','1','1','1','1','1','1','1','1',};
 		testBoard.tiles[08]=new char[]{'1','1','1','1','1','1','1','1','1','1','1','1','1',};
 		boards.Add(testBoard);
+=======
+		boards.Add(testBoard);*/
+		testBoard = new Board();
+		testBoard.tiles=new char[9][];
+		testBoard.tiles[00]=new char[]{'0','0','0'};
+		testBoard.tiles[01]=new char[]{'0','0','0'};
+		testBoard.tiles[02]=new char[]{'0','0','0'};
+		testBoard.tiles[03]=new char[]{'0','0','0'};
+		testBoard.tiles[04]=new char[]{'0','0','0'};
+		testBoard.tiles[05]=new char[]{'0','0','0'};
+		testBoard.tiles[06]=new char[]{'0','0','0'};
+		testBoard.tiles[07]=new char[]{'1','1','1'};
+		testBoard.tiles[08]=new char[]{'1','1','1'};
+		boards.Add(testBoard); testBoard = new Board();
+>>>>>>> e458f9f6057db6bb5ff58d8fbfbc1af191dbb70f
 		//LoadBoard(testBoard);
 	}
 	

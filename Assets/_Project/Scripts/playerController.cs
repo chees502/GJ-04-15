@@ -6,6 +6,8 @@ public class playerController : MonoBehaviour {
 	public playerController buddy;
 	ActorController actor;
 	float maxBuddyDistance=5;
+	public enum _State{Alive,Alone,Dead};
+	public _State state=_State.Alive;
 	void Awake(){
 		if(_Root.playerLogic.player1==null){
 			_Root.playerLogic.player1=this;
@@ -28,6 +30,15 @@ public class playerController : MonoBehaviour {
 		}
 	}
 	void Update(){
+		if(state==_State.Dead){
+			if(Vector3.Distance(transform.position,buddy.transform.position)<_Root.Apendix.broReviveDistance){
+				state=_State.Alive;
+				actor.dead=false;
+				buddy.state=_State.Alive;
+				_Root.playerLogic.tether=true;
+			}
+			return;
+		}
 		if(p1){
 			if(Input.GetKey("a")){
 				actor.Move (-1);
@@ -62,6 +73,9 @@ public class playerController : MonoBehaviour {
 		return(transform.position+buddy.transform.position)*0.5f;
 	}
 	void Tether(){
+		if(_Root.playerLogic.tether==false){
+			return;
+		}
 		float distance= Vector3.Distance(transform.position,buddy.transform.position);
 		Vector3 midPoint=GetMidPoint();
 		if(distance>maxBuddyDistance){
@@ -71,5 +85,16 @@ public class playerController : MonoBehaviour {
 			transform.position=midPoint+direction*maxBuddyDistance*-0.5f;
 
 		}
+	}
+	public void Respawn(){
+		transform.position=Vector3.zero;
+		state=_State.Dead;
+		actor.dead=true;
+		if(buddy.state!=_State.Dead){
+			buddy.state=_State.Alone;
+		}else{
+			Application.LoadLevel(0);
+		}
+		_Root.playerLogic.tether=false;
 	}
 }
