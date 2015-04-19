@@ -45,11 +45,11 @@ public class playerController : MonoBehaviour {
 			if(Input.GetKey("right")){
 				actor.Move (1);
 			}
-			if(Input.GetKey("down")){
-				Jump (-1);
+			if(Input.GetKeyDown("[0]")){
+				actor.Jump (10);
 			}
-			if(Input.GetKey("up")){
-				Jump (1);
+			if(Input.GetKeyDown("right ctrl")){
+				actor.Jump (10);
 			}
 
 		}

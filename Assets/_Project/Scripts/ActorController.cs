@@ -9,6 +9,8 @@ public class ActorController : MonoBehaviour {
 	public float actorWidth = 1;
 	public float actorHeight = 1;
 	public float bouncyness = 0.5f;
+	public int lockoutTimer = 0;
+	public bool lockedOut = false;
 	Collider2D collider;
 	Vector3 size;
 
@@ -17,6 +19,7 @@ public class ActorController : MonoBehaviour {
 		size = collider.bounds.size;
 	}
 	void Update () {
+		LockoutUpdate();
 		GravityAction();
 		TopCollide();
 		LeftCollide();
@@ -25,11 +28,13 @@ public class ActorController : MonoBehaviour {
 	}
 
 	public void Move(float dir){
-		velocity.x+=dir*runSpeed;
+		if(!lockedOut){
+			velocity.x+=dir*runSpeed;
+		}
 	}
 
 	public void Jump(float strength){
-		if(isGrounded){
+		if(isGrounded && !lockedOut){
 			isGrounded=false;
 			Debug.Log ("Jumped for "+strength);
 			velocity.y=strength;
@@ -58,17 +63,17 @@ public class ActorController : MonoBehaviour {
 			-Vector2.up,
 			velocity.y*Time.deltaTime);
 		if(hitLeft.collider!=null&&hitLeft.collider!=gameObject.GetComponent<Collider2D>()&&velocity.y<0){
-			Debug.Log(gameObject.name+" hit "+hitLeft.collider.gameObject.name+" with bottom face");
+			//Debug.Log(gameObject.name+" hit "+hitLeft.collider.gameObject.name+" with bottom face");
 			transform.position=new Vector3(hitLeft.point.x-groundPlaneLeft.x,hitLeft.point.y-groundPlaneCenter.y,0);
 			velocity.y=0;
 			isGrounded=true;
 		} else if(hitCenter.collider!=null&&hitCenter.collider!=gameObject.GetComponent<Collider2D>()&&velocity.y<0){
-			Debug.Log(gameObject.name+" hit "+hitCenter.collider.gameObject.name+" with bottom face");
+			//Debug.Log(gameObject.name+" hit "+hitCenter.collider.gameObject.name+" with bottom face");
 			transform.position=new Vector3(hitCenter.point.x-groundPlaneCenter.x,hitCenter.point.y-groundPlaneCenter.y,0);
 			velocity.y=0;
 			isGrounded=true;
 		} else if(hitRight.collider!=null&&hitRight.collider!=gameObject.GetComponent<Collider2D>()&&velocity.y<0){
-			Debug.Log(gameObject.name+" hit "+hitRight.collider.gameObject.name+" with bottom face");
+			//Debug.Log(gameObject.name+" hit "+hitRight.collider.gameObject.name+" with bottom face");
 			transform.position=new Vector3(hitRight.point.x-groundPlaneRight.x,hitRight.point.y-groundPlaneRight.y,0);
 			velocity.y=0;
 			isGrounded=true;
@@ -134,14 +139,17 @@ public class ActorController : MonoBehaviour {
 			Debug.Log(gameObject.name+" hit "+hitTop.collider.gameObject.name+" with left face");
 			transform.position=new Vector3(hitTop.point.x-leftPlaneTop.x,hitTop.point.y-leftPlaneTop.y,0);
 			velocity.x*=-bouncyness;
+			Lockout();
 		} else if(hitMid.collider!=null&&hitMid.collider!=gameObject.GetComponent<Collider2D>()&&velocity.x<0){
 			Debug.Log(gameObject.name+" hit "+hitMid.collider.gameObject.name+" with left face");
 			transform.position=new Vector3(hitMid.point.x-leftPlaneMid.x,hitMid.point.y-leftPlaneMid.y,0);
 			velocity.x*=-bouncyness;
+			Lockout();
 		} else if(hitBot.collider!=null&&hitBot.collider!=gameObject.GetComponent<Collider2D>()&&velocity.x<0){
 			Debug.Log(gameObject.name+" hit "+hitBot.collider.gameObject.name+" with left face");
 			transform.position=new Vector3(hitBot.point.x-leftPlaneBot.x,hitBot.point.y-leftPlaneBot.y,0);
 			velocity.x*=-bouncyness;
+			Lockout();
 		}
 		Debug.DrawRay(transform.position+leftPlaneTop,new Vector3(velocity.x,0,0)*Time.deltaTime*5);
 		Debug.DrawRay(transform.position+leftPlaneMid,new Vector3(velocity.x,0,0)*Time.deltaTime*5);
@@ -168,14 +176,17 @@ public class ActorController : MonoBehaviour {
 			Debug.Log(gameObject.name+" hit "+hitTop.collider.gameObject.name+" with right face");
 			transform.position=new Vector3(hitTop.point.x-rightPlaneTop.x,hitTop.point.y-rightPlaneTop.y,0);
 			velocity.x*=-bouncyness;
+			Lockout();
 		} else if(hitMid.collider!=null&&hitMid.collider!=gameObject.GetComponent<Collider2D>()&&velocity.x>0){
 			Debug.Log(gameObject.name+" hit "+hitMid.collider.gameObject.name+" with right face");
 			transform.position=new Vector3(hitMid.point.x-rightPlaneMid.x,hitMid.point.y-rightPlaneMid.y,0);
 			velocity.x*=-bouncyness;
+			Lockout();
 		} else if(hitBot.collider!=null&&hitBot.collider!=gameObject.GetComponent<Collider2D>()&&velocity.x>0){
 			Debug.Log(gameObject.name+" hit "+hitBot.collider.gameObject.name+" with right face");
 			transform.position=new Vector3(hitBot.point.x-rightPlaneBot.x,hitBot.point.y-rightPlaneBot.y,0);
 			velocity.x*=-bouncyness;
+			Lockout();
 		}
 		Debug.DrawRay(transform.position+rightPlaneTop,new Vector3(velocity.x,0,0)*Time.deltaTime*5);
 		Debug.DrawRay(transform.position+rightPlaneMid,new Vector3(velocity.x,0,0)*Time.deltaTime*5);
@@ -188,6 +199,26 @@ public class ActorController : MonoBehaviour {
 		newPos.y+=velocity.y*Time.deltaTime;
 		transform.position=newPos;
 		velocity.x-=velocity.x*Time.deltaTime*friction;
+	}
+
+	void LockoutUpdate(){
+		if(lockedOut){
+			if(lockoutTimer == 0){
+				lockedOut = false;
+			} else {
+				lockoutTimer--;
+				Debug.Log ("Lockout remaining: "+lockoutTimer);
+			}
+		}
+	}
+
+	void Lockout(int time){
+		Debug.Log ("Setting lockout for "+time);
+		lockedOut = true;
+		lockoutTimer = time;
+	}
+	void Lockout(){
+		Lockout (6);
 	}
 
 }
