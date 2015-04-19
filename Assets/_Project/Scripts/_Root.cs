@@ -17,6 +17,13 @@ public class _Root{
 		public Vector3 midpoint{
 			get{return player1.GetMidPoint();}
 		}
+		public playerController GetRandomPlayer(){
+			if(Random.value>0.5f){
+				return player1;
+			}else{
+				return player2;
+			}
+		}
 	}
 
 	private static LinkLogic _linkLogic;
