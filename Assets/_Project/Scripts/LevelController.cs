@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System.Collections.Generic;
 public class LevelController : MonoBehaviour {
 	
 	public enum _TempTile{Void,Solid,Platform,Error};
@@ -8,23 +8,45 @@ public class LevelController : MonoBehaviour {
 	const int GREEN = 2;
 	const int BLUE = 4;
 	const int WHITE = 7;
+	public static IList<Board> boards = new List<Board>();
 	// Use this for initialization
 	void Start () {
 		Board testBoard = new Board();
-		testBoard.tiles=new char[12][];
-		testBoard.tiles[00]=new char[]{'0','0','0','0','2','2','2','2','2','0',};
-		testBoard.tiles[01]=new char[]{'1','0','0','0','0','0','0','0','0','0',};
-		testBoard.tiles[02]=new char[]{'0','1','0','0','0','0','0','0','0','0',};
-		testBoard.tiles[03]=new char[]{'0','0','1','0','0','0','0','0','0','0',};
+		testBoard.tiles=new char[9][];
+		testBoard.tiles[00]=new char[]{'0','0','0','0','0','0','0','0','0','0',};
+		testBoard.tiles[01]=new char[]{'0','0','0','0','0','0','0','0','0','0',};
+		testBoard.tiles[02]=new char[]{'0','0','0','0','0','0','0','0','0','0',};
+		testBoard.tiles[03]=new char[]{'0','0','0','0','0','0','0','0','0','0',};
 		testBoard.tiles[04]=new char[]{'0','0','0','0','0','0','0','0','0','0',};
-		testBoard.tiles[05]=new char[]{'0','0','1','0','0','0','0','0','0','0',};
-		testBoard.tiles[06]=new char[]{'0','0','0','1','0','0','0','0','0','0',};
-		testBoard.tiles[07]=new char[]{'0','0','0','0','0','0','0','0','0','0',};
-		testBoard.tiles[08]=new char[]{'0','0','0','0','0','0','0','0','0','0',};
-		testBoard.tiles[09]=new char[]{'0','0','0','0','0','0','0','0','0','0',};
-		testBoard.tiles[10]=new char[]{'0','0','0','0','0','0','0','0','0','8',};
-		testBoard.tiles[11]=new char[]{'0','0','0','0','0','0','0','0','8','8',};
-		LoadBoard(testBoard);
+		testBoard.tiles[05]=new char[]{'0','0','0','0','0','0','0','0','0','0',};
+		testBoard.tiles[06]=new char[]{'0','1','1','0','1','1','1','0','0','0',};
+		testBoard.tiles[07]=new char[]{'0','1','1','1','1','1','1','1','1','1',};
+		testBoard.tiles[08]=new char[]{'1','1','1','1','1','1','1','1','1','1',};
+		boards.Add(testBoard);
+		testBoard = new Board();
+		testBoard.tiles=new char[9][];
+		testBoard.tiles[00]=new char[]{'0','1','1'};
+		testBoard.tiles[01]=new char[]{'0','0','0'};
+		testBoard.tiles[02]=new char[]{'0','0','0'};
+		testBoard.tiles[03]=new char[]{'0','0','0'};
+		testBoard.tiles[04]=new char[]{'0','0','1'};
+		testBoard.tiles[05]=new char[]{'0','0','1'};
+		testBoard.tiles[06]=new char[]{'0','1','1'};
+		testBoard.tiles[07]=new char[]{'0','1','1'};
+		testBoard.tiles[08]=new char[]{'1','1','1'};
+		boards.Add(testBoard); testBoard = new Board();
+		testBoard.tiles=new char[9][];
+		testBoard.tiles[00]=new char[]{'0','0','0','0','0','0','0','0','0','0','0'};
+		testBoard.tiles[01]=new char[]{'0','0','0','0','0','0','0','0','0','0','0'};
+		testBoard.tiles[02]=new char[]{'0','0','0','0','0','0','0','0','0','0','0'};
+		testBoard.tiles[03]=new char[]{'0','0','0','0','1','0','0','0','0','0','0'};
+		testBoard.tiles[04]=new char[]{'0','0','0','0','0','0','0','0','0','0','0'};
+		testBoard.tiles[05]=new char[]{'0','1','0','1','1','1','0','0','1','1','0'};
+		testBoard.tiles[06]=new char[]{'0','0','0','0','0','0','0','0','1','1','0'};
+		testBoard.tiles[07]=new char[]{'0','0','0','0','0','0','0','0','1','1','0'};
+		testBoard.tiles[08]=new char[]{'1','1','1','1','1','1','1','1','1','1','1'};
+		boards.Add(testBoard);
+		//LoadBoard(testBoard);
 	}
 	
 	// Update is called once per frame

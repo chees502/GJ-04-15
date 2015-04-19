@@ -21,7 +21,7 @@ public class BuildChain : MonoBehaviour {
 			if(x!=0){
 				HingeJoint2D hinge = tempGO.AddComponent<HingeJoint2D>();
 				hinge.connectedBody=lastGO.GetComponent<Rigidbody2D>();
-				tempGO.transform.localScale=new Vector3(0.1f,0.1f,0.1f);
+				//tempGO.transform.localScale=new Vector3(0.1f,0.1f,0.1f);
 				hinge.anchor=new Vector2(0,chainSpace);
 				hinge.connectedAnchor=new Vector2(0,-chainSpace);
 				if(x==chainLength-1){
