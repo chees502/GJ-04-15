@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class LevelOffseter : MonoBehaviour {
-	void Update () {
+	void FixedUpdate () {/*
 		Vector3 position = transform.position;
 		position.x-=_Root.Apendix.levelScrollSpeed*Time.deltaTime;
 		if(position.x<0){
@@ -12,13 +12,21 @@ public class LevelOffseter : MonoBehaviour {
 			CaptureChildren(children);
 		}else{
 			transform.position=position;
-		}
+		}*/
 	}
 	void Start(){
-		for(int x = 0;x<20;x++){
-			GameObject newGO=Instantiate(Resources.Load("Tile14"))as GameObject;
-			newGO.transform.position=new Vector3(x-10,-5,0);
-			newGO.transform.parent=transform;
+		for(int x = 0;x<0;x++){
+			GameObject parent=new GameObject();
+			GameObject newGO = Instantiate(Resources.Load ("TileG14"))as GameObject;
+			newGO.transform.parent=parent.transform;
+			//MeshRender mesh = newGO.AddComponent<MeshRenderer>();
+			//mesh.
+			parent.transform.position=new Vector3(x-10,-4,0);
+			parent.transform.parent=transform;
+			BoxCollider2D box = parent.AddComponent<BoxCollider2D>();
+			parent.AddComponent<TileLogic>();
+			box.offset=new Vector2(0,-0);
+			box.size=new Vector2(1,0.55f);
 		}
 	}
 	Transform[] ReleaseChildren(){

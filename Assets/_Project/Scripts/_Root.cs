@@ -34,7 +34,7 @@ public class _Root{
 	}
 	public static class Apendix{
 		public static float actorGravity		= -32;
-		public static float levelScrollSpeed	= 1;
+		public static float levelScrollSpeed	= 4;
 		public static float friction			= 10;
 		public static float airFriction 		= 2;
 		public static float runSpeed			= 1.2f;
@@ -43,6 +43,7 @@ public class _Root{
 		public static float bouncyness 			= 0.5f;
 		public static int lockoutTime			= 6;
 		public static int edgeBufferTime		= 4;
-
+		public static float tileSpawnRange		= 30;
+		public static float tileDespawnRange	=-30;
 	}
 }
