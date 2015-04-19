@@ -34,5 +34,6 @@ public class _Root{
 	}
 	public static class Apendix{
 		public static float actorGravity=-20;
+		public static float levelScrollSpeed=1;
 	}
 }
