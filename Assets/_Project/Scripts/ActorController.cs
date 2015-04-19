@@ -53,15 +53,15 @@ public class ActorController : MonoBehaviour {
 		RaycastHit2D hitLeft=Physics2D.Raycast(
 			transform.position+groundPlaneLeft,
 			-Vector2.up,
-			velocity.y*Time.deltaTime);
+			-velocity.y*Time.deltaTime);
 		RaycastHit2D hitCenter=Physics2D.Raycast(
 			transform.position+groundPlaneCenter,
 			-Vector2.up,
-			velocity.y*Time.deltaTime);
+			-velocity.y*Time.deltaTime);
 		RaycastHit2D hitRight=Physics2D.Raycast(
 			transform.position+groundPlaneRight,
 			-Vector2.up,
-			velocity.y*Time.deltaTime);
+			-velocity.y*Time.deltaTime);
 		if(hitLeft.collider!=null&&hitLeft.collider!=gameObject.GetComponent<Collider2D>()&&velocity.y<0){
 			//Debug.Log(gameObject.name+" hit "+hitLeft.collider.gameObject.name+" with bottom face");
 			transform.position=new Vector3(hitLeft.point.x-groundPlaneLeft.x,hitLeft.point.y-groundPlaneCenter.y,0);
