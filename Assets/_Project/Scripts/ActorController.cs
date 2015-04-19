@@ -7,6 +7,7 @@ public class ActorController : MonoBehaviour {
 	public float actorHeight 	= 1;
 	public int lockoutTimer 	= 0;
 	public bool lockedOut 		= false;
+	public bool ignoreLockout	= false;
 	public int edgeBufferTimer 	= 0;
 	public bool inEdgeBuffer 	= false;
 	public Vector3 size;
@@ -168,17 +169,17 @@ public class ActorController : MonoBehaviour {
 	void TopCollisionAction(){
 		RaycastHit2D[] hitArray = TopCollide();
 		if(hitArray[0].collider!=null&&hitArray[0].collider!=gameObject.GetComponent<Collider2D>()&&velocity.y>0){
-			Debug.Log(gameObject.name+" hit "+hitArray[0].collider.gameObject.name+" with top face");
+			//Debug.Log(gameObject.name+" hit "+hitArray[0].collider.gameObject.name+" with top face");
 			transform.position=new Vector3(hitArray[0].point.x-topPlaneLeft.x,hitArray[0].point.y-topPlaneLeft.y,0);
-			//velocity.y*=-_Root.Apendix.bouncyness;
+			velocity.y*=-_Root.Apendix.bouncyness;
 		} else if(hitArray[1].collider!=null&&hitArray[1].collider!=gameObject.GetComponent<Collider2D>()&&velocity.y>0){
-			Debug.Log(gameObject.name+" hit "+hitArray[1].collider.gameObject.name+" with top face");
+			//Debug.Log(gameObject.name+" hit "+hitArray[1].collider.gameObject.name+" with top face");
 			transform.position=new Vector3(hitArray[1].point.x-topPlaneCenter.x,hitArray[1].point.y-topPlaneCenter.y,0);
-			//velocity.y*=-_Root.Apendix.bouncyness;
+			velocity.y*=-_Root.Apendix.bouncyness;
 		} else if(hitArray[2].collider!=null&&hitArray[2].collider!=gameObject.GetComponent<Collider2D>()&&velocity.y>0){
-			Debug.Log(gameObject.name+" hit "+hitArray[2].collider.gameObject.name+" with top face");
+			//Debug.Log(gameObject.name+" hit "+hitArray[2].collider.gameObject.name+" with top face");
 			transform.position=new Vector3(hitArray[2].point.x-topPlaneRight.x,hitArray[2].point.y-topPlaneRight.y,0);
-			//velocity.y*=-_Root.Apendix.bouncyness;
+			velocity.y*=-_Root.Apendix.bouncyness;
 		}
 		Debug.DrawRay(transform.position+topPlaneLeft,new Vector3(0,velocity.y,0)*Time.deltaTime*5);
 		Debug.DrawRay(transform.position+topPlaneCenter,new Vector3(0,velocity.y,0)*Time.deltaTime*5);
@@ -230,17 +231,17 @@ public class ActorController : MonoBehaviour {
 	void LeftCollisionAction(){
 		RaycastHit2D[] hitArray = LeftCollide ();
 		if(hitArray[0].collider!=null&&hitArray[0].collider!=gameObject.GetComponent<Collider2D>()&&velocity.x<0){
-			Debug.Log(gameObject.name+" hit "+hitArray[0].collider.gameObject.name+" with left face");
+			//Debug.Log(gameObject.name+" hit "+hitArray[0].collider.gameObject.name+" with left face");
 			transform.position=new Vector3(hitArray[0].point.x-leftPlaneTop.x,hitArray[0].point.y-leftPlaneTop.y,0);
 			velocity.x*=-_Root.Apendix.bouncyness;
 			Lockout();
 		} else if(hitArray[1].collider!=null&&hitArray[1].collider!=gameObject.GetComponent<Collider2D>()&&velocity.x<0){
-			Debug.Log(gameObject.name+" hit "+hitArray[1].collider.gameObject.name+" with left face");
+			//Debug.Log(gameObject.name+" hit "+hitArray[1].collider.gameObject.name+" with left face");
 			transform.position=new Vector3(hitArray[1].point.x-leftPlaneMid.x,hitArray[1].point.y-leftPlaneMid.y,0);
 			velocity.x*=-_Root.Apendix.bouncyness;
 			Lockout();
 		} else if(hitArray[2].collider!=null&&hitArray[2].collider!=gameObject.GetComponent<Collider2D>()&&velocity.x<0){
-			Debug.Log(gameObject.name+" hit "+hitArray[2].collider.gameObject.name+" with left face");
+			//Debug.Log(gameObject.name+" hit "+hitArray[2].collider.gameObject.name+" with left face");
 			transform.position=new Vector3(hitArray[2].point.x-leftPlaneBot.x,hitArray[2].point.y-leftPlaneBot.y,0);
 			velocity.x*=-_Root.Apendix.bouncyness;
 			Lockout();
@@ -253,17 +254,17 @@ public class ActorController : MonoBehaviour {
 	void RightCollisionAction(){
 		RaycastHit2D[] hitArray = RightCollide ();
 		if(hitArray[0].collider!=null&&hitArray[0].collider!=gameObject.GetComponent<Collider2D>()&&velocity.x>0){
-			Debug.Log(gameObject.name+" hit "+hitArray[0].collider.gameObject.name+" with right face");
+			//Debug.Log(gameObject.name+" hit "+hitArray[0].collider.gameObject.name+" with right face");
 			transform.position=new Vector3(hitArray[0].point.x-rightPlaneTop.x,hitArray[0].point.y-rightPlaneTop.y,0);
 			velocity.x*=-_Root.Apendix.bouncyness;
 			Lockout();
 		} else if(hitArray[1].collider!=null&&hitArray[1].collider!=gameObject.GetComponent<Collider2D>()&&velocity.x>0){
-			Debug.Log(gameObject.name+" hit "+hitArray[1].collider.gameObject.name+" with right face");
+			//Debug.Log(gameObject.name+" hit "+hitArray[1].collider.gameObject.name+" with right face");
 			transform.position=new Vector3(hitArray[1].point.x-rightPlaneMid.x,hitArray[1].point.y-rightPlaneMid.y,0);
 			velocity.x*=-_Root.Apendix.bouncyness;
 			Lockout();
 		} else if(hitArray[2].collider!=null&&hitArray[2].collider!=gameObject.GetComponent<Collider2D>()&&velocity.x>0){
-			Debug.Log(gameObject.name+" hit "+hitArray[2].collider.gameObject.name+" with right face");
+			//Debug.Log(gameObject.name+" hit "+hitArray[2].collider.gameObject.name+" with right face");
 			transform.position=new Vector3(hitArray[2].point.x-rightPlaneBot.x,hitArray[2].point.y-rightPlaneBot.y,0);
 			velocity.x*=-_Root.Apendix.bouncyness;
 			Lockout();
@@ -297,9 +298,11 @@ public class ActorController : MonoBehaviour {
 	}
 
 	void Lockout(int time){
-		Debug.Log ("Setting lockout for "+time);
-		lockedOut = true;
-		lockoutTimer = time;
+		if(!ignoreLockout){
+			Debug.Log ("Setting lockout for "+time);
+			lockedOut = true;
+			lockoutTimer = time;
+		}
 	}
 	void Lockout(){
 		Lockout (_Root.Apendix.lockoutTime);

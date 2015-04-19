@@ -8,12 +8,16 @@ public class goombaController : MonoBehaviour {
 
 	void Awake(){
 		actor = gameObject.AddComponent<ActorController>();
+		actor.ignoreLockout = true;
 		if(Random.value>0.5f){
 			isReckless = true;
 		}
 	}
 
 	void FixedUpdate () {
+		if(Input.GetKeyDown("p")){
+			SwitchDirection();
+		}
 		SwitchDirectionCheck();
 		Move();
 	}
