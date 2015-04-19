@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class ActorController : MonoBehaviour {
-	Vector2 velocity;
 	public bool isGrounded		= false;
 	public float actorWidth 	= 1;
 	public float actorHeight 	= 1;
@@ -11,7 +10,8 @@ public class ActorController : MonoBehaviour {
 	public int edgeBufferTimer 	= 0;
 	public bool inEdgeBuffer 	= false;
 	Collider2D collider;
-	Vector3 size;
+	Vector2 velocity;
+	public Vector3 size;
 
 	void Start(){
 		collider=GetComponent<Collider2D>();
@@ -88,15 +88,15 @@ public class ActorController : MonoBehaviour {
 		if(hitLeft.collider!=null&&hitLeft.collider!=gameObject.GetComponent<Collider2D>()&&velocity.y>0){
 			Debug.Log(gameObject.name+" hit "+hitLeft.collider.gameObject.name+" with top face");
 			transform.position=new Vector3(hitLeft.point.x-topPlaneLeft.x,hitLeft.point.y-topPlaneLeft.y,0);
-			velocity.y*=-_Root.Apendix.bouncyness;
+			//velocity.y*=-_Root.Apendix.bouncyness;
 		} else if(hitCenter.collider!=null&&hitCenter.collider!=gameObject.GetComponent<Collider2D>()&&velocity.y>0){
 			Debug.Log(gameObject.name+" hit "+hitCenter.collider.gameObject.name+" with top face");
 			transform.position=new Vector3(hitCenter.point.x-topPlaneCenter.x,hitCenter.point.y-topPlaneCenter.y,0);
-			velocity.y*=-_Root.Apendix.bouncyness;
+			//velocity.y*=-_Root.Apendix.bouncyness;
 		} else if(hitRight.collider!=null&&hitRight.collider!=gameObject.GetComponent<Collider2D>()&&velocity.y>0){
 			Debug.Log(gameObject.name+" hit "+hitRight.collider.gameObject.name+" with top face");
 			transform.position=new Vector3(hitRight.point.x-topPlaneRight.x,hitRight.point.y-topPlaneRight.y,0);
-			velocity.y*=-_Root.Apendix.bouncyness;
+			//velocity.y*=-_Root.Apendix.bouncyness;
 		}
 		Debug.DrawRay(transform.position+topPlaneLeft,new Vector3(0,velocity.y,0)*Time.deltaTime*5);
 		Debug.DrawRay(transform.position+topPlaneCenter,new Vector3(0,velocity.y,0)*Time.deltaTime*5);
