@@ -3,12 +3,13 @@ using System.Collections;
 
 public class ActorController : MonoBehaviour {
 	Vector2 velocity;
-	public bool isGrounded		=false;
+	public bool isGrounded		= false;
 	public float actorWidth 	= 1;
 	public float actorHeight 	= 1;
 	public int lockoutTimer 	= 0;
-	public int edgeBuffer 		= 0;
 	public bool lockedOut 		= false;
+	public int edgeBufferTimer 	= 0;
+	public bool inEdgeBuffer 	= false;
 	Collider2D collider;
 	Vector3 size;
 
@@ -49,12 +50,14 @@ public class ActorController : MonoBehaviour {
 				ActorController actorAbove = hitRight.collider.gameObject.GetComponent<ActorController>();
 				actorAbove.Jump(strength*1.2f);
 				transform.position += new Vector3(0,0.2f,0);
+				Debug.Log("Did boosted jump");
 		} else if(hitLeft.collider!=null &&
 			hitLeft.collider.gameObject.layer == LayerMask.NameToLayer("Player") &&
 			isGrounded){
 				ActorController actorAbove = hitLeft.collider.gameObject.GetComponent<ActorController>();
 				actorAbove.Jump(strength*1.2f);
 				transform.position += new Vector3(0,0.2f,0);
+				Debug.Log("Did boosted jump");
 		} else if(isGrounded){
 			isGrounded=false;
 			Debug.Log ("Jumped for "+strength);
@@ -137,7 +140,19 @@ public class ActorController : MonoBehaviour {
 			velocity.y=0;
 			isGrounded=true;
 		} else {
-			isGrounded = false;
+			if(!inEdgeBuffer && isGrounded){
+				inEdgeBuffer = true;
+				edgeBufferTimer = _Root.Apendix.edgeBufferTime;
+			} else if(inEdgeBuffer){
+				edgeBufferTimer--;
+				if(edgeBufferTimer<=0){
+					inEdgeBuffer = false;
+					isGrounded = false;
+				}
+			} else {
+				isGrounded = false;
+				inEdgeBuffer = false;
+			}
 		}
 		Debug.DrawRay(transform.position+groundPlaneLeft,new Vector3(0,velocity.y,0)*Time.deltaTime*5);
 		Debug.DrawRay(transform.position+groundPlaneCenter,new Vector3(0,velocity.y,0)*Time.deltaTime*5);
@@ -247,7 +262,7 @@ public class ActorController : MonoBehaviour {
 		lockoutTimer = time;
 	}
 	void Lockout(){
-		Lockout (6);
+		Lockout (_Root.Apendix.lockoutTime);
 	}
 
 }
