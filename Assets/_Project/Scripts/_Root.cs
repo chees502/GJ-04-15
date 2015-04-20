@@ -42,7 +42,7 @@ public class _Root{
 	}
 	public static class Apendix{
 		public static float actorGravity		= -32;
-		public static float levelScrollSpeed	= 4;
+		public static float levelScrollSpeed	= 0;
 		public static float broReviveDistance	= 1.5f;
 		public static float friction			= 10;
 		public static float airFriction 		= 2;

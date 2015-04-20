@@ -17,7 +17,7 @@ public class BoardTiming : MonoBehaviour {
 		position.x-=_Root.Apendix.levelScrollSpeed*Time.deltaTime;
 		transform.position=position;
 		if(position.x<_Root.Apendix.tileSpawnRange){
-			if(Random.value<0.25f){
+			if(Random.value>1f){
 				GameObject temp = Instantiate(Resources.Load ("tempSeeker"))as GameObject;
 				Vector2 circle = Random.insideUnitCircle.normalized*20;
 				circle.y=Mathf.Abs(circle.y);
