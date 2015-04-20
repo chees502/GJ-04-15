@@ -11,6 +11,9 @@ public class _Root{
 			return _playerLogic;
 		}
 	}
+	public static void ResetPlayer(){
+		_playerLogic=new PlayerLogic();
+	}
 	public class PlayerLogic{
 		public playerController player1;
 		public playerController player2;
@@ -19,6 +22,11 @@ public class _Root{
 			get{return player1.GetMidPoint();}
 		}
 		public playerController GetRandomPlayer(){
+			if(player1.state==playerController._State.Alone){
+				return player1;
+			}else if(player2.state==playerController._State.Alone){
+				return player2;
+			}
 			if(Random.value>0.5f){
 				return player1;
 			}else{
@@ -37,12 +45,15 @@ public class _Root{
 			return _linkLogic;
 		}
 	}
+	public static void ResetLinks(){
+		_linkLogic.links=new List<LinkController>();
+	}
 	public class LinkLogic{
 		public IList<LinkController> links;
 	}
 	public static class Apendix{
 		public static float actorGravity		= -32;
-		public static float levelScrollSpeed	= 0;
+		public static float levelScrollSpeed	= 2;
 		public static float broReviveDistance	= 1.5f;
 		public static float friction			= 10;
 		public static float airFriction 		= 2;
@@ -55,6 +66,6 @@ public class _Root{
 		public static float tileSpawnRange		= 30;
 		public static float tileDespawnRange	=-30;
 		public static float seekerTurnSpeed		= 180;
-		public static float seekerMoveSpeed		= 5;
+		public static float seekerMoveSpeed		= 3;
 	}
 }

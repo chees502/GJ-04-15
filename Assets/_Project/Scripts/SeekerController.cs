@@ -11,6 +11,8 @@ public class SeekerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		
+		transform.position -= new Vector3(_Root.Apendix.levelScrollSpeed*Time.deltaTime,0,0);
 		Vector3 dir = targetPlayer.position-transform.position;
 		dir.Normalize();
 		float turnAmount=Vector3.Dot(-transform.right,dir);
@@ -26,7 +28,11 @@ public class SeekerController : MonoBehaviour {
 		Debug.Log ("Hit!!!!!! "+other.gameObject.name);
 		if(!other.gameObject.name.Contains("Join")){
 			other.gameObject.GetComponent<playerController>().Respawn();
+			Kill ();
+		}else{
+			if(_Root.playerLogic.tether==true){
+				Kill ();
+			}
 		}
-		Kill ();
 	}
 }

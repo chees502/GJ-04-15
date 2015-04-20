@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System.Collections.Generic;
 public class ChainDrawer : MonoBehaviour {
 	LineRenderer line;
 	int segmentCount;
 	// Use this for initialization
+	void Awake(){
+	}
 	void Start () {/*
 		line=gameObject.AddComponent<LineRenderer>();
 		segmentCount=_Root.linkLogic.links.Count;
@@ -18,6 +20,7 @@ public class ChainDrawer : MonoBehaviour {
 			segmentCount=_Root.linkLogic.links.Count;
 			line.SetVertexCount(segmentCount);
 			line.SetWidth(0.1f,0.1f);
+			line.material=Resources.Load("Beam")as Material;
 		}
 		if(_Root.playerLogic.tether){
 			line.enabled=true;

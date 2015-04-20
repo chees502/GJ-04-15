@@ -5,8 +5,12 @@ public class BuildChain : MonoBehaviour {
 	public int chainLength=10;
 	public float chainSpace=1;
 	// Use this for initialization
+	void Awake(){
+		
+		//_Root.ResetLinks();
+	}
 	void Start () {
-
+		Debug.Log ("WE FUCKING STARTED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		GameObject lastGO=new GameObject();
 		for(int x=0;x<chainLength;x++){
 			GameObject tempGO=GameObject.CreatePrimitive(PrimitiveType.Cube);

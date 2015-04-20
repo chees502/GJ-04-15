@@ -5,9 +5,12 @@ public class playerController : MonoBehaviour {
 	public bool p1=true;
 	public playerController buddy;
 	ActorController actor;
+	PlayerAnimator anim;
 	float maxBuddyDistance=5;
 	public enum _State{Alive,Alone,Dead};
 	public _State state=_State.Alive;
+	float deathTime;
+	bool reseting=false;
 	void Awake(){
 		if(_Root.playerLogic.player1==null){
 			_Root.playerLogic.player1=this;
@@ -19,6 +22,7 @@ public class playerController : MonoBehaviour {
 			Destroy(gameObject);
 		}
 		actor = gameObject.AddComponent<ActorController>();
+		anim=gameObject.GetComponent<PlayerAnimator>();
 //		actor.friction=10;
 //		actor.runSpeed=2;
 	}
@@ -30,6 +34,14 @@ public class playerController : MonoBehaviour {
 		}
 	}
 	void Update(){
+		if(reseting){
+			if(deathTime<Time.unscaledTime+5){
+				reseting=false;
+				state=_State.Alive;
+				buddy.state=_State.Alive;
+				Time.timeScale=1;
+			}
+		}
 		if(state==_State.Dead){
 			if(Vector3.Distance(transform.position,buddy.transform.position)<_Root.Apendix.broReviveDistance){
 				state=_State.Alive;
@@ -39,12 +51,20 @@ public class playerController : MonoBehaviour {
 			}
 			return;
 		}
+		anim.running=false;
 		if(p1){
 			if(Input.GetKey("a")){
 				actor.Move (-1);
+				anim.running=true;
+				Vector3 scale =new Vector3(0.7468538f,0.7468538f,0.7468538f);
+				scale.x*=-1;
+				anim.offset.localScale=scale;
 			}
 			if(Input.GetKey("d")){
 				actor.Move (1);
+				anim.running=true;
+				Vector3 scale =new Vector3(0.7468538f,0.7468538f,0.7468538f);
+				anim.offset.localScale=scale;
 			}
 			if(Input.GetKeyDown("space")){
 				actor.Jump();
@@ -52,9 +72,16 @@ public class playerController : MonoBehaviour {
 		}else{
 			if(Input.GetKey("left")){
 				actor.Move (-1);
+				anim.running=true;
+				Vector3 scale =new Vector3(0.7468538f,0.7468538f,0.7468538f);
+				scale.x*=-1;
+				anim.offset.localScale=scale;
 			}
 			if(Input.GetKey("right")){
 				actor.Move (1);
+				anim.running=true;
+				Vector3 scale =new Vector3(0.7468538f,0.7468538f,0.7468538f);
+				anim.offset.localScale=scale;
 			}
 			if(Input.GetKeyDown("[0]")){
 				actor.Jump ();
@@ -93,7 +120,10 @@ public class playerController : MonoBehaviour {
 		if(buddy.state!=_State.Dead){
 			buddy.state=_State.Alone;
 		}else{
+			_Root.ResetLinks();
 			Application.LoadLevel(0);
+			//_Root.ResetLinks();
+			//_Root.ResetPlayer();
 		}
 		_Root.playerLogic.tether=false;
 	}
